@@ -23,7 +23,7 @@ const AddCard = () => {
       console.log("Text from URL:", text);
 
       const openai = new OpenAI({
-        apiKey: "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",
+        apiKey: "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",
         dangerouslyAllowBrowser: true,
       });
 
