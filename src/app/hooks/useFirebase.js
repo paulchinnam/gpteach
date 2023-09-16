@@ -46,6 +46,7 @@ export function FirebaseProvider({ children }) {
 
   useEffect(() => {
     return onAuthStateChanged(auth, async (user) => {
+      console.log("auth state changed \n user: ", user);
       const userData = getUserProperties(user);
       setUser(userData || null);
     });
@@ -79,7 +80,7 @@ export function useAuth() {
         router.push("/dashboard")
       );
     },
-    signOut: () => signOut(auth),
+    // signOut: () => signOut(auth),
     createUserWithEmailAndPassword: (email, password) => {
       return createUserWithEmailAndPassword(auth, email, password).then(() =>
         router.push("/dashboard")
@@ -91,4 +92,20 @@ export function useAuth() {
       );
     },
   };
+}
+
+export function useFirestore() {
+  const context = React.useContext(FirestoreContext);
+  if (context === undefined) {
+    throw new Error("useFirestore must be used within a FirebaseProvider");
+  }
+  return context;
+}
+
+export function useFirebase() {
+  const context = React.useContext(FirebaseContext);
+  if (context === undefined) {
+    throw new Error("useFirebase must be used within a FirebaseProvider");
+  }
+  return context;
 }
