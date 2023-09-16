@@ -1,8 +1,32 @@
 "use client";
+
+import { useState, useEffect, useDeferredValue } from "react";
+import { useDeckInterface } from "../hooks/useDeckInterface";
+import { useRouter } from "next/navigation";
+import { useAuth } from "../hooks/useFirebase";
+import { Practice } from "../components/Practice";
+import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+
+"use client";
 import { useState } from "react";
 import cheerio from "cheerio";
 
 export default function Dashboard() {
+  const { getCards, getDecks } = useDeckInterface();
+  const [decks, setDecks] = useState([]);
+  const { user } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    console.log("useeffect dash");
+    async function loadDecks() {
+      const tempDecks = await getDecks();
+      setDecks(tempDecks);
+    }
+
+    user && loadDecks();
+  }, [user]);
+
   const [url, setUrl] = useState("");
   const [result, setResult] = useState("");
 
@@ -42,6 +66,17 @@ export default function Dashboard() {
               placeholder="enter a url"
             />
           </div>
+
+      {decks.map((deck) => {
+        return (
+          <div
+            key={deck.id}
+            onClick={() => router.push(`/practice/?deckId=${deck.id}`)}
+          >
+            <p>{deck.name}</p>
+          </div>
+        );
+      })}
           <button
             type="button"
             onClick={handleScrape}
