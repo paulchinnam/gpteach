@@ -1,7 +1,19 @@
+"use client";
+
 import React, { useState, useContext, createContext, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+} from "firebase/auth";
+
+import { useRouter } from "next/navigation";
 
 const firebaseConfig = require("../firebaseConfig.json");
 //import a bunch of stuff
@@ -13,7 +25,7 @@ const FirebaseUserContext = createContext();
 function getUserProperties(user) {
   if (!user) return null;
 
-  const { displayName, uid, email } = user;
+  const { displayName, uid, email, photoURL } = user;
   const userData = {
     uid,
     email,
@@ -26,7 +38,7 @@ function getUserProperties(user) {
 }
 
 export function FirebaseProvider({ children }) {
-  const app = initializeApp();
+  const app = initializeApp(firebaseConfig);
   const db = getFirestore();
   const auth = getAuth();
 
@@ -53,6 +65,7 @@ export function FirebaseProvider({ children }) {
 export function useAuth() {
   const auth = getAuth();
   const context = useContext(FirebaseUserContext);
+  const router = useRouter();
 
   if (context === undefined) {
     throw new Error("useAuth must be used inside of a FirebaseProvider!");
@@ -62,14 +75,20 @@ export function useAuth() {
     user: context,
     signInWithPopup: () => {
       const googleProvider = new GoogleAuthProvider();
-      return signInWithPopup(auth, googleProvider);
+      return signInWithPopup(auth, googleProvider).then(() =>
+        router.push("/dashboard")
+      );
     },
     signOut: () => signOut(auth),
     createUserWithEmailAndPassword: (email, password) => {
-      return createUserWithEmailAndPassword(auth, email, password);
+      return createUserWithEmailAndPassword(auth, email, password).then(() =>
+        router.push("/dashboard")
+      );
     },
     signInWithEmailAndPassword: (email, password) => {
-      return signInWithEmailAndPassword(auth, email, password);
+      return signInWithEmailAndPassword(auth, email, password).then(() =>
+        router.push("/dashboard")
+      );
     },
   };
 }
