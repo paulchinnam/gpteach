@@ -20,6 +20,7 @@
     "eslint": "8.49.0",
     "eslint-config-next": "13.4.19",
     "firebase": "^10.4.0",
+    "framer-motion": "^10.16.4",
     "heroicons": "^2.0.18",
     "next": "13.4.19",
     "node-fetch": "2.6.1",
