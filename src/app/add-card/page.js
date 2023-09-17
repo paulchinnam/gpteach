@@ -3,13 +3,31 @@
 import { useEffect, useState } from "react";
 import OpenAI from "openai";
 import { useSearchParams } from "next/navigation";
+import { CheckCircleIcon } from "@heroicons/react/20/solid";
+import { useDeckInterface } from "../hooks/useDeckInterface";
 
 const AddCard = () => {
   const searchParams = useSearchParams();
   const text = searchParams.get("text");
+  const { createCard } = useDeckInterface();
 
   const [response, setResponse] = useState(null);
+  const [prompt, setPrompt] = useState("");
+  const [answer, setAnswer] = useState("");
+
   console.log(text);
+
+  async function verifyCard() {
+    //TODO DECK CONFIGURATION
+    await createCard({ prompt, answer, tags: [] }).then(() => {
+      //window.close();
+    });
+  }
+
+  useEffect(() => {
+    setPrompt(response?.prompt);
+    setAnswer(response?.answer);
+  }, [response]);
 
   useEffect(() => {
     if (!text) return;
@@ -23,7 +41,7 @@ const AddCard = () => {
       console.log("Text from URL:", text);
 
       const openai = new OpenAI({
-        apiKey: "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",
+        apiKey: "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",
         dangerouslyAllowBrowser: true,
       });
 
@@ -89,8 +107,9 @@ OUTPUT: {prompt: "Subaru", answer: "Started as Fuji Heavy Industries"}`,
   return (
     <div>
       <h1>OpenAI Response:</h1>
-      <p>Front: {response?.prompt}</p>
-      <p>Back: {response?.answer}</p>
+      <p>Prompt: {prompt}</p>
+      <p>Answer: {answer}</p>
+      <CheckCircleIcon class="h-6 w-6" onClick={() => verifyCard()} />
     </div>
   );
 };

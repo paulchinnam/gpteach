@@ -32,6 +32,16 @@ export function useDeckInterface() {
   }
 
   async function createCard({ deckId, prompt, answer, tags }) {
+    if (!deckId) {
+      const q = query(
+        collection(db, "decks"),
+        where("uid", "==", user.uid),
+        where("isDefault", "==", true)
+      );
+      const defaultDecksSnap = await getDocs(q);
+      const deckData = defaultDecksSnap.docs[0];
+      deckId = deckData.id;
+    }
     const cardsCollectionRef = collection(db, "decks", deckId, "cards");
     return await addDoc(cardsCollectionRef, {
       prompt,
