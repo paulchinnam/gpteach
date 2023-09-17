@@ -18,19 +18,45 @@ export default function Practice() {
   const deckId = searchParams.get("deckId");
   const [showIcons, setShowIcons] = useState(false);
   const [cards, setCards] = useState([]);
-  const { getCards } = useDeckInterface();
+  const { getCards, calculateInterval, updateCardMetrics, calculateEase } =
+    useDeckInterface();
   const { user } = useAuth();
 
-  function markCorrect() {
-    const tempCards = [...cards];
-    tempCards.shift();
-    setCards(tempCards);
-    console.log(tempCards);
-    console.log(cards);
+  async function markCorrect() {
+    let q = cards[0]?.incorrect ? 0 : 5;
+    await updateCardMetrics({
+      deckId,
+      cardId: cards[0].cardId,
+      q,
+      correctStreak: cards[0].correctStreak,
+      ease: cards[0].ease,
+    }).then(() => {
+      const tempCards = [...cards];
+      tempCards.shift();
+      setCards(tempCards);
+    });
+  }
+
+  async function markOkay() {
+    console.log("mark okay");
+    console.log(cards[0].cardId);
+    let q = cards[0]?.incorrect ? 0 : 3;
+    await updateCardMetrics({
+      deckId,
+      cardId: cards[0].cardId,
+      q,
+      correctStreak: cards[0].correctStreak,
+      ease: cards[0].ease,
+    }).then(() => {
+      const tempCards = [...cards];
+      tempCards.shift();
+      setCards(tempCards);
+    });
   }
 
   function markIncorrect() {
     const tempCards = [...cards];
+    tempCards[0].incorrect = true;
     tempCards.push(tempCards[0]);
     tempCards.shift();
     setCards(tempCards);
@@ -53,7 +79,12 @@ export default function Practice() {
       });*/
 
       tempCards = tempCards.map((card) => {
-        return { cardId: card.id };
+        return {
+          cardId: card.id,
+          correctStreak: card.correctStreak,
+          ease: card.ease,
+          incorrect: false,
+        };
       });
       setCards(tempCards);
     }
@@ -76,21 +107,52 @@ export default function Practice() {
       ) : (
         <p>You finished all your reviews in this deck! Nice work!</p>
       )}
-      {showIcons && (
+      {cards.length > 0 && showIcons && (
         <>
-          <CheckCircleIcon
-            color="green"
-            class="h-12 w-12"
-            onClick={() => markCorrect()}
-          />
-
-          <MinusCircleIcon color="orange" class="h-12 w-12" />
-
-          <XCircleIcon
-            color="red"
-            class="h-12 w-12"
-            onClick={() => markIncorrect()}
-          />
+          {
+            <div>
+              <CheckCircleIcon
+                color="green"
+                class="h-12 w-12"
+                onClick={() => markCorrect()}
+              />
+              {cards[0].incorrect ? (
+                1
+              ) : (
+                <p>
+                  {calculateInterval(
+                    cards[0].correctStreak + 1,
+                    calculateEase(cards[0].ease, 5)
+                  )}
+                </p>
+              )}
+            </div>
+          }
+          {cards[0].incorrect == false && (
+            <div>
+              <MinusCircleIcon
+                color="orange"
+                class="h-12 w-12"
+                onClick={() => markOkay()}
+              />
+              <p>
+                {calculateInterval(
+                  cards[0].correctStreak + 1,
+                  calculateEase(cards[0].ease, 3)
+                )}
+              </p>
+            </div>
+          )}
+          {cards[0].incorrect == false && (
+            <div>
+              <XCircleIcon
+                color="red"
+                class="h-12 w-12"
+                onClick={() => markIncorrect()}
+              />
+              <p>1</p>
+            </div>
+          )}
         </>
       )}
     </>
