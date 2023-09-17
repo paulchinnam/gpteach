@@ -28,11 +28,11 @@ export function Card({ cardId, deckId, setShowIcons }) {
   return (
     <div className="card-container" onClick={() => setShowAnswer(!showAnswer)}>
       <div className={`card ${showAnswer ? "card-flip" : ""}`}>
-        <div className="card-front">
-          <p>{prompt}</p>
+        <div className="card-front bg-indigo-900 w-full h-full absolute flex justify-center items-center rounded-lg p-10 text-center">
+          <p className="text-xl text-center text-white">{prompt}</p>
         </div>
-        <div className="card-back">
-          <p>{answer}</p>
+        <div className="card-back bg-indigo-900 w-full h-full absolute flex items-center justify-center rounded-lg p-10 text-center">
+          <p className="text-xl text-white">{answer}</p>
         </div>
       </div>
     </div>
