@@ -1,12 +1,7 @@
-//"use client";
-
 import "./globals.css";
-import { Inter } from "next/font/google";
 import { FirebaseProvider } from "./hooks/useFirebase";
 import { Suspense } from "react";
 import Loading from "./loading";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
   title: "Create Next App",
