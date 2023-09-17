@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAuth } from "../hooks/useFirebase";
 
 export default function Example() {
-  const { createUserWithEmailAndPassword, signInWithPopup } = useAuth();
+  const { signInWithEmailAndPassword, signInWithPopup } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -78,7 +78,7 @@ export default function Example() {
 
             <div>
               <button
-                onClick={() => createUserWithEmailAndPassword(email, password)}
+                onClick={() => signInWithEmailAndPassword(email, password)}
                 type="submit"
                 className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
               >
