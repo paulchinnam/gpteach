@@ -207,7 +207,7 @@ OUTPUT: [{prompt: "What company started off as Fuji Heavy Industries?", answer: 
       <button
         type="button"
         onClick={() => rejectCard()}
-        className="mt-6 w-full justify-center inline-flex items-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+        className="mt-4 w-full justify-center inline-flex items-center rounded-md bg-black px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
       >
         <XCircleIcon
           className="-ml-0.5 mr-1.5 h-5 w-5 text-red-600"
