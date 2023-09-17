@@ -10,6 +10,7 @@ import {
   query,
   where,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 
 export function useDeckInterface() {
@@ -50,8 +51,16 @@ export function useDeckInterface() {
       "cards"
     ).get();
     return cardsCollectionSnap.map((card) => {
-      return card.data();
+      return {
+        id: card.id,
+        ...card.data(),
+      };
     });
+  }
+
+  async function getCard({ deckId, cardId }) {
+    const cardRef = doc(db, "decks", deckId, "cards", cardId);
+    return await getDoc(cardRef).data();
   }
 
   async function getDecks() {
@@ -94,6 +103,7 @@ export function useDeckInterface() {
     createDeck,
     deleteDeck,
     getCards,
+    getCard,
     getDecks,
   };
 }
