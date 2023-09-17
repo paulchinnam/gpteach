@@ -10,6 +10,7 @@ import {
   query,
   where,
   setDoc,
+  getDoc,
 } from "firebase/firestore";
 
 export function useDeckInterface() {
@@ -17,8 +18,12 @@ export function useDeckInterface() {
   const { user } = useAuth();
 
   async function createDeck({ name }) {
-    const decksCollectionRef = collection(db, "decks");
-    return await addDoc(decksCollectionRef, { name, uid: user.uid });
+    try {
+      const decksCollectionRef = collection(db, "decks");
+      return await addDoc(decksCollectionRef, { name, uid: user.uid });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async function deleteDeck({ deckId }) {
@@ -43,19 +48,28 @@ export function useDeckInterface() {
   }
 
   async function getCards({ deckId }) {
-    const cardsCollectionSnap = await collection(
-      db,
-      "decks",
-      deckId,
-      "cards"
-    ).get();
-    return cardsCollectionSnap.map((card) => {
-      return card.data();
-    });
+    try {
+      console.log(deckId);
+      const cardsCollectionRef = collection(db, "decks", deckId, "cards");
+      const cardsCollectionSnap = await getDocs(cardsCollectionRef);
+      return cardsCollectionSnap.docs.map((card) => {
+        return {
+          id: card.id,
+          ...card.data(),
+        };
+      });
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async function getCard({ deckId, cardId }) {
+    const cardRef = doc(db, "decks", deckId, "cards", cardId);
+    const cardSnap = await getDoc(cardRef);
+    return cardSnap.data();
   }
 
   async function getDecks() {
-    console.log(db);
     const q = query(collection(db, "decks"), where("uid", "==", user.uid));
     const decksSnap = await getDocs(q);
     return decksSnap.docs.map((deck) => {
@@ -94,6 +108,7 @@ export function useDeckInterface() {
     createDeck,
     deleteDeck,
     getCards,
+    getCard,
     getDecks,
   };
 }
