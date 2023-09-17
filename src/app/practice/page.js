@@ -18,10 +18,24 @@ export default function Practice() {
   const deckId = searchParams.get("deckId");
   const [showIcons, setShowIcons] = useState(false);
   const [cards, setCards] = useState([]);
-  const { getCards, calculateInterval, updateCardMetrics, calculateEase } =
-    useDeckInterface();
+  const [deckName, setDeckName] = useState("");
+  const {
+    getCards,
+    calculateInterval,
+    getDeck,
+    updateCardMetrics,
+    calculateEase,
+  } = useDeckInterface();
   const { user } = useAuth();
 
+  useEffect(() => {
+    async function loadName() {
+      const tempDeck = await getDeck({ deckId });
+      setDeckName(tempDeck.name);
+    }
+
+    loadName();
+  }, []);
   async function markCorrect() {
     let q = cards[0]?.incorrect ? 0 : 5;
     await updateCardMetrics({
@@ -93,68 +107,105 @@ export default function Practice() {
   }, [user]);
   return (
     <>
-      <ArrowLeftIcon
-        class="h-6 w-6"
-        onClick={() => router.push("/dashboard")}
-      />
-      {cards.length > 0 ? (
-        <Card
-          key={cards[0].cardId}
-          setShowIcons={setShowIcons}
-          cardId={cards[0].cardId}
-          deckId={deckId}
-        />
-      ) : (
-        <p class="">You finished all your reviews in this deck! Nice work!</p>
-      )}
-      {cards.length > 0 && showIcons && (
-        <>
-          {
-            <div>
-              <CheckCircleIcon
-                color="green"
-                class="h-12 w-12"
-                onClick={() => markCorrect()}
-              />
-              {cards[0].incorrect ? (
-                1
-              ) : (
-                <p>
-                  {calculateInterval(
-                    cards[0].correctStreak + 1,
-                    calculateEase(cards[0].ease, 5)
-                  )}
-                </p>
-              )}
-            </div>
-          }
-          {cards[0].incorrect == false && (
-            <div>
-              <MinusCircleIcon
-                color="orange"
-                class="h-12 w-12"
-                onClick={() => markOkay()}
-              />
-              <p>
-                {calculateInterval(
-                  cards[0].correctStreak + 1,
-                  calculateEase(cards[0].ease, 3)
-                )}
+      <div className="h-screen">
+        <div className="flex items-center pl-10 pt-10 pb-20">
+          <div className="flex items-center gap-2">
+            <h1>{deckName}</h1>
+            <ArrowLeftIcon
+              class="h-6 w-6 text-indigo-600"
+              onClick={() => router.push("/dashboard")}
+            />
+            <p className="text-indigo-900">Back to dashboard</p>
+          </div>
+          <h1></h1>
+        </div>
+        <div className="flex justify-center">
+          {cards.length > 0 ? (
+            <Card
+              key={cards[0].cardId}
+              setShowIcons={setShowIcons}
+              cardId={cards[0].cardId}
+              deckId={deckId}
+            />
+          ) : (
+            <div className="">
+              <p className="px-4 py-2 bg-green-100 border border-green-600 text-green-600 rounded-md mt-20">
+                You finished all your reviews in this deck! Nice work!
               </p>
             </div>
           )}
-          {cards[0].incorrect == false && (
-            <div>
-              <XCircleIcon
-                color="red"
-                class="h-12 w-12"
-                onClick={() => markIncorrect()}
-              />
-              <p>1</p>
-            </div>
+        </div>
+        <div className="flex justify-center mt-10 gap-10">
+          {cards.length > 0 && showIcons && (
+            <>
+              {
+                <div className="text-center space-y-2">
+                  {cards[0].incorrect ? (
+                    1
+                  ) : (
+                    <p>
+                      {calculateInterval(
+                        cards[0].correctStreak + 1,
+                        calculateEase(cards[0].ease, 5)
+                      )}{" "}
+                      days
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => markCorrect()}
+                    className="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <CheckCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    Easy!
+                  </button>
+                </div>
+              }
+              {cards[0].incorrect == false && (
+                <div className="text-center space-y-2">
+                  <p>
+                    {calculateInterval(
+                      cards[0].correctStreak + 1,
+                      calculateEase(cards[0].ease, 3)
+                    )}{" "}
+                    days
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => markOkay()}
+                    className="inline-flex items-center rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <MinusCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    Okay
+                  </button>
+                </div>
+              )}
+              {cards[0].incorrect == false && (
+                <div className="text-center space-y-2">
+                  <p>1 day</p>
+                  <button
+                    type="button"
+                    onClick={() => markIncorrect()}
+                    className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <XCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    Wrong
+                  </button>
+                </div>
+              )}
+            </>
           )}
-        </>
-      )}
+        </div>
+      </div>
     </>
   );
 }
