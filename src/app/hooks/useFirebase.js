@@ -80,7 +80,7 @@ export function useAuth() {
         router.push("/dashboard")
       );
     },
-    // signOut: () => signOut(auth),
+    signOut: () => signOut(auth),
     createUserWithEmailAndPassword: (email, password) => {
       return createUserWithEmailAndPassword(auth, email, password).then(() =>
         router.push("/dashboard")
