@@ -95,13 +95,13 @@ export default function Practice() {
     <>
       <div className="h-screen">
         <div className="flex items-center pl-10 pt-10 pb-20">
-          <div className="flex items-center gap-2">
-            <ArrowLeftIcon
-              class="h-6 w-6 text-indigo-600"
-              onClick={() => router.push("/dashboard")}
-            />
+          <button
+            className="flex items-center gap-2"
+            onClick={() => router.push("/dashboard")}
+          >
+            <ArrowLeftIcon class="h-6 w-6 text-indigo-600" />
             <p className="text-indigo-900">Back to dashboard</p>
-          </div>
+          </button>
           <h1></h1>
         </div>
         <div className="flex justify-center">
@@ -123,6 +123,44 @@ export default function Practice() {
         <div className="flex justify-center mt-10 gap-10">
           {cards.length > 0 && showIcons && (
             <>
+              {cards[0].incorrect == false && (
+                <div className="text-center space-y-2">
+                  <p>1 day</p>
+                  <button
+                    type="button"
+                    onClick={() => markIncorrect()}
+                    className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <XCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    Wrong
+                  </button>
+                </div>
+              )}
+              {cards[0].incorrect == false && (
+                <div className="text-center space-y-2">
+                  <p>
+                    {calculateInterval(
+                      cards[0].correctStreak + 1,
+                      calculateEase(cards[0].ease, 3)
+                    )}{" "}
+                    days
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => markOkay()}
+                    className="inline-flex items-center rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                  >
+                    <MinusCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    Okay
+                  </button>
+                </div>
+              )}
               {
                 <div className="text-center space-y-2">
                   {cards[0].incorrect ? (
@@ -149,44 +187,6 @@ export default function Practice() {
                   </button>
                 </div>
               }
-              {cards[0].incorrect == false && (
-                <div className="text-center space-y-2">
-                  <p>
-                    {calculateInterval(
-                      cards[0].correctStreak + 1,
-                      calculateEase(cards[0].ease, 3)
-                    )}{" "}
-                    days
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => markOkay()}
-                    className="inline-flex items-center rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <MinusCircleIcon
-                      className="-ml-0.5 mr-1.5 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    Okay
-                  </button>
-                </div>
-              )}
-              {cards[0].incorrect == false && (
-                <div className="text-center space-y-2">
-                  <p>1 day</p>
-                  <button
-                    type="button"
-                    onClick={() => markIncorrect()}
-                    className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <XCircleIcon
-                      className="-ml-0.5 mr-1.5 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    Wrong
-                  </button>
-                </div>
-              )}
             </>
           )}
         </div>
