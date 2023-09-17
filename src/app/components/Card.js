@@ -20,9 +20,17 @@ export function Card({ cardId, deckId }) {
 
     loadCardData();
   }, []);
+
   return (
-    <div onClick={() => setShowAnswer(!showAnswer)}>
-      {showAnswer ? <p>{answer}</p> : <p>{prompt}</p>}
+    <div className="card-container" onClick={() => setShowAnswer(!showAnswer)}>
+      <div className={`card ${showAnswer ? "card-flip" : ""}`}>
+        <div className="card-front">
+          <p>{prompt}</p>
+        </div>
+        <div className="card-back">
+          <p>{answer}</p>
+        </div>
+      </div>
     </div>
   );
 }
