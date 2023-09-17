@@ -18,8 +18,12 @@ export function useDeckInterface() {
   const { user } = useAuth();
 
   async function createDeck({ name }) {
-    const decksCollectionRef = collection(db, "decks");
-    return await addDoc(decksCollectionRef, { name, uid: user.uid });
+    try {
+      const decksCollectionRef = collection(db, "decks");
+      return await addDoc(decksCollectionRef, { name, uid: user.uid });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async function deleteDeck({ deckId }) {

@@ -4,12 +4,13 @@ import { useState, useEffect, useDeferredValue } from "react";
 import { useDeckInterface } from "../hooks/useDeckInterface";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useFirebase";
-import { Practice } from "../components/Practice";
-import { ArrowLeftIcon } from "@heroicons/react/20/solid";
+import { PlusCircleIcon } from "@heroicons/react/20/solid";
 
 export default function Dashboard() {
-  const { getCards, getDecks } = useDeckInterface();
+  const { getCards, getDecks, createDeck } = useDeckInterface();
   const [decks, setDecks] = useState([]);
+  const [showCreateDeck, setShowCreateDeck] = useState(false);
+  const [newDeckName, setNewDeckName] = useState("");
   const { user } = useAuth();
   const router = useRouter();
 
@@ -22,6 +23,13 @@ export default function Dashboard() {
 
     user && loadDecks();
   }, [user]);
+
+  function createNewDeck(e) {
+    e.preventDefault();
+    createDeck({ name: newDeckName });
+    setNewDeckName("");
+    setShowCreateDeck(false);
+  }
 
   return (
     <main className="flex justify-center p-20">
@@ -44,6 +52,19 @@ export default function Dashboard() {
           </div>
         );
       })}
+      <PlusCircleIcon class="h-6 w-6" onClick={() => setShowCreateDeck(true)} />
+      {showCreateDeck && (
+        <form>
+          <input
+            placeholder="Deck Name"
+            type="string"
+            id="name"
+            value={newDeckName}
+            onChange={(e) => setNewDeckName(e.target.value)}
+          ></input>
+          <button onClick={(e) => createNewDeck(e)}>Create New Deck</button>
+        </form>
+      )}
     </main>
   );
 }
