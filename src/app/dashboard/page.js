@@ -16,6 +16,7 @@ import { useEffect, useDeferredValue } from "react";
 import { useDeckInterface } from "../hooks/useDeckInterface";
 import { useRouter } from "next/navigation";
 import CreateDeckModal from "../components/CreateDeckModal";
+import Link from "next/link";
 
 export default function Dashboard() {
   const { getCards, getDecks, createDeck } = useDeckInterface();
@@ -27,7 +28,7 @@ export default function Dashboard() {
   const { user, signOut } = useAuth();
   const [open, setOpen] = useState(false);
 
-  const navigation = [{ name: "My decks", href: "#", current: true }];
+  const navigation = [{ name: "My decks", href: "/dashboard", current: true }];
   const userNavigation = [{ name: "Sign out", href: "#" }];
 
   function classNames(...classes) {
@@ -102,7 +103,7 @@ export default function Dashboard() {
                       <div className="hidden lg:ml-10 lg:block">
                         <div className="flex space-x-4">
                           {navigation.map((item) => (
-                            <a
+                            <Link
                               key={item.name}
                               href={item.href}
                               className={classNames(
@@ -114,7 +115,7 @@ export default function Dashboard() {
                               aria-current={item.current ? "page" : undefined}
                             >
                               {item.name}
-                            </a>
+                            </Link>
                           ))}
                         </div>
                       </div>
