@@ -186,7 +186,7 @@ export default function Practice() {
                   </button>
                 </div>
               )}
-              {cards[0].incorrect == false && (
+              {
                 <div className="text-center space-y-2">
                   <p>1 day</p>
                   <button
@@ -201,7 +201,7 @@ export default function Practice() {
                     Wrong
                   </button>
                 </div>
-              )}
+              }
             </>
           )}
         </div>
