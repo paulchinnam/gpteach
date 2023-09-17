@@ -111,6 +111,11 @@ export function useDeckInterface() {
     });
   }
 
+  async function getDeck({ deckId }) {
+    const docRef = doc(db, "decks", deckId);
+    const deckSnap = await getDoc(docRef);
+    return deckSnap.data();
+  }
   async function updateCard({
     deckId,
     cardId,
@@ -166,5 +171,6 @@ export function useDeckInterface() {
     calculateInterval,
     updateCardMetrics,
     calculateEase,
+    getDeck,
   };
 }

@@ -18,10 +18,24 @@ export default function Practice() {
   const deckId = searchParams.get("deckId");
   const [showIcons, setShowIcons] = useState(false);
   const [cards, setCards] = useState([]);
-  const { getCards, calculateInterval, updateCardMetrics, calculateEase } =
-    useDeckInterface();
+  const [deckName, setDeckName] = useState("");
+  const {
+    getCards,
+    calculateInterval,
+    getDeck,
+    updateCardMetrics,
+    calculateEase,
+  } = useDeckInterface();
   const { user } = useAuth();
 
+  useEffect(() => {
+    async function loadName() {
+      const tempDeck = await getDeck({ deckId });
+      setDeckName(tempDeck.name);
+    }
+
+    loadName();
+  }, []);
   async function markCorrect() {
     let q = cards[0]?.incorrect ? 0 : 5;
     await updateCardMetrics({
@@ -96,6 +110,7 @@ export default function Practice() {
       <div className="h-screen">
         <div className="flex items-center pl-10 pt-10 pb-20">
           <div className="flex items-center gap-2">
+            <h1>{deckName}</h1>
             <ArrowLeftIcon
               class="h-6 w-6 text-indigo-600"
               onClick={() => router.push("/dashboard")}
