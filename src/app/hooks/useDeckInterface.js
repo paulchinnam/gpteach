@@ -17,6 +17,24 @@ export function useDeckInterface() {
   const db = useFirestore();
   const { user } = useAuth();
 
+  function calculateInterval(n, ease) {
+    if (n == 1) {
+      return 1;
+    } else if (n == 2) {
+      return 6;
+    } else if (n > 2) {
+      return Math.ceil(calculateInterval(n - 1, ease) * ease);
+    }
+  }
+
+  function calculateEase(ease, q) {
+    let newEase = ease + (0.1 - (5 - q) * (0.08 + (5 - q) * 0.02));
+    if (newEase < 1.3) {
+      newEase = 1.3;
+    }
+    return newEase;
+  }
+
   async function createDeck({ name }) {
     try {
       const decksCollectionRef = collection(db, "decks");
@@ -48,6 +66,9 @@ export function useDeckInterface() {
       answer,
       tags,
       lastShown: null,
+      ease: 2.5,
+      correctStreak: 0,
+      interval: 0,
       showNext: new Date(),
     });
   }
@@ -98,6 +119,8 @@ export function useDeckInterface() {
     tags,
     lastShown,
     showNext,
+    correctStreak,
+    interval,
   }) {
     const cardRef = doc(db, "decks", deckId, "cards", cardId);
     const cardToUpdate = {};
@@ -107,6 +130,8 @@ export function useDeckInterface() {
     if (tags) cardToUpdate.tags = tags;
     if (lastShown) cardToUpdate.lastShown = lastShown;
     if (showNext) cardToUpdate.showNext = showNext;
+    if (correctStreak) cardToUpdate.correctStreak = correctStreak;
+    if (interval) cardToUpdate.interval = interval;
 
     return await setDoc(cardRef, cardToUpdate, { merge: true });
   }

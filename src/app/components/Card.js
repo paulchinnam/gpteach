@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useDeckInterface } from "../hooks/useDeckInterface";
 
-export function Card({ cardId, deckId }) {
+export function Card({ cardId, deckId, setShowIcons }) {
   const [prompt, setPrompt] = useState("");
   const [answer, setAnswer] = useState("");
   const [showAnswer, setShowAnswer] = useState(false);
@@ -20,6 +20,10 @@ export function Card({ cardId, deckId }) {
 
     loadCardData();
   }, []);
+
+  useEffect(() => {
+    setShowIcons(showAnswer);
+  }, [showAnswer]);
 
   return (
     <div className="card-container" onClick={() => setShowAnswer(!showAnswer)}>
