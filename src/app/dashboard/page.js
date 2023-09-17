@@ -39,13 +39,13 @@ export default function Dashboard() {
     router.push("/");
   }
 
+  async function loadDecks() {
+    const tempDecks = await getDecks();
+    setDecks(tempDecks);
+  }
+
   useEffect(() => {
     console.log("useeffect dash");
-    async function loadDecks() {
-      const tempDecks = await getDecks();
-      setDecks(tempDecks);
-    }
-
     user && loadDecks();
   }, [user]);
 
@@ -76,9 +76,11 @@ export default function Dashboard() {
 
   function createNewDeck(e) {
     e.preventDefault();
-    createDeck({ name: newDeckName });
-    setNewDeckName("");
-    setShowCreateDeck(false);
+    createDeck({ name: newDeckName }).then(() => {
+      setNewDeckName("");
+      setShowCreateDeck(false);
+      loadDecks();
+    });
   }
 
   return (
