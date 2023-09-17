@@ -105,7 +105,7 @@ export default function Practice() {
           deckId={deckId}
         />
       ) : (
-        <p>You finished all your reviews in this deck! Nice work!</p>
+        <p class="">You finished all your reviews in this deck! Nice work!</p>
       )}
       {cards.length > 0 && showIcons && (
         <>
