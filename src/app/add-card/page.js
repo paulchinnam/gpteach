@@ -1,28 +1,43 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import OpenAI from "openai";
 import { useSearchParams } from "next/navigation";
 import { CheckCircleIcon } from "@heroicons/react/20/solid";
 import { useDeckInterface } from "../hooks/useDeckInterface";
+import { useAuth } from "../hooks/useFirebase";
 
-const AddCard = () => {
+export default function AddCard() {
   const searchParams = useSearchParams();
   const text = searchParams.get("text");
-  const { createCard } = useDeckInterface();
-
+  const { createCard, getDecks } = useDeckInterface();
+  const [decks, setDecks] = useState([]);
+  const { user } = useAuth();
   const [response, setResponse] = useState(null);
   const [prompt, setPrompt] = useState("");
   const [answer, setAnswer] = useState("");
-
+  const [currentDeck, setCurrentDeck] = useState(0);
   console.log(text);
 
   async function verifyCard() {
     //TODO DECK CONFIGURATION
-    await createCard({ prompt, answer, tags: [] }).then(() => {
-      //window.close();
+    if (decks.length == 0) {
+      return;
+    }
+    let deckId = decks[currentDeck]?.id;
+    await createCard({ deckId, prompt, answer, tags: [] }).then(() => {
+      window.close();
     });
   }
+
+  useEffect(() => {
+    async function loadDecks() {
+      const tempDecks = await getDecks();
+      setDecks(tempDecks);
+    }
+
+    user && loadDecks();
+  }, [user]);
 
   useEffect(() => {
     setPrompt(response?.prompt);
@@ -41,7 +56,7 @@ const AddCard = () => {
       console.log("Text from URL:", text);
 
       const openai = new OpenAI({
-        apiKey: "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",
+        apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
         dangerouslyAllowBrowser: true,
       });
 
@@ -106,12 +121,26 @@ OUTPUT: {prompt: "Subaru", answer: "Started as Fuji Heavy Industries"}`,
 
   return (
     <div>
+      {decks.length > 0 && (
+        <form>
+          <select
+            defaultValue={currentDeck}
+            onChange={(e) => setCurrentDeck(e.target.value)}
+          >
+            {decks.map((deck, i) => {
+              return (
+                <option key={i} value={i}>
+                  {deck.name}
+                </option>
+              );
+            })}
+          </select>
+        </form>
+      )}
       <h1>OpenAI Response:</h1>
       <p>Prompt: {prompt}</p>
       <p>Answer: {answer}</p>
       <CheckCircleIcon class="h-6 w-6" onClick={() => verifyCard()} />
     </div>
   );
-};
-
-export default AddCard;
+}
