@@ -108,16 +108,17 @@ export default function Practice() {
   return (
     <>
       <div className="h-screen">
-        <div className="flex items-center pl-10 pt-10 pb-20">
-          <div className="flex items-center gap-2">
-            <h1>{deckName}</h1>
+        <div className="flex items-center px-10 pt-16 pb-24">
+          <div className="flex items-center gap-2 absolute">
             <ArrowLeftIcon
               class="h-6 w-6 text-indigo-600"
               onClick={() => router.push("/dashboard")}
             />
             <p className="text-indigo-900">Back to dashboard</p>
           </div>
-          <h1></h1>
+          <h1 className="text-3xl w-full text-center capitalize">
+            {deckName} deck
+          </h1>
         </div>
         <div className="flex justify-center">
           {cards.length > 0 ? (
