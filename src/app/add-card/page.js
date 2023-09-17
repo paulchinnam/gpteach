@@ -70,9 +70,10 @@ export default function AddCard() {
 Return JSON objects that might be useful for the front and back of flash cards. Extract facts and information and arrange them in helpful ways so that the front of the card has a topic and the back has a fact about it. label the front and back as prompt and answer respectfully. 
 If a single word has been inputted, auto generate a answer for the answer section and the prompt is the word inputted. 
 If a paragraph has been entered, make sure to create cards that do not overlap facts within each other.
+If a large paragraph has been entered, you must use discretion to determine what information is beyond the scope of the flashcards.
 Do not create duplicate cards.
-Make sure all cards have complete sentences for answers.
-Every prompt must have an answer.
+Every prompt and answer pair must be in the form of either a question and answer or a term and definition.
+You must filter the prompt and answer to remove any unnecessary details and descriptors that would not provide any extra understanding in a flashcard setting.
 If no answer is found for a given prompt, auto generate using chatgpt.
 Do not create randomly generated json objects.
 Do not create json objects that start with '{ "prompt":' and do not end with anything. Every json object should be complete and relevant to the given input.
@@ -81,7 +82,7 @@ Try to make prompts into questions and an answer is an answer. Try to frame the 
 Here are some example inputs and outputs:
 
 INPUT: Kevin was born in 1962 in Salem, MA.
-OUTPUT: {prompt: "Kevin's birth year", answer: "1962"}
+OUTPUT: {prompt: "What year was Kevin born?", answer: "1962"}
 
 INPUT: chewgy
 OUTPUT: {prompt: "chewgy", answer: "Outdated style, typically of millennials"}
@@ -89,8 +90,14 @@ OUTPUT: {prompt: "chewgy", answer: "Outdated style, typically of millennials"}
 INPUT: casa
 OUTPUT: {prompt: "casa", answer: "Spanish for house"}
 
+INPUT: Pong is a table tennis–themed twitch arcade sports video game
+OUTPUT: {prompt:"What is Pong", answer:"A table tennis themed arcade game"}
+
+INPUT: Grand Theft Auto V is a 2013 action-adventure game developed by Rockstar North and published by Rockstar Games.
+OUTPUT: {prompt: "What 2013 action-adventure game was developed by Rockstar?", answer: "Grand Theft Auto V"}
+
 INPUT: Subaru started off as Fuji Heavy Industries. Fuji Heavy Industries led to the rise of Subaru.
-OUTPUT: {prompt: "Subaru", answer: "Started as Fuji Heavy Industries"}`,
+OUTPUT: {prompt: "What company started off as Fuji Heavy Industries?", answer: "Subaru"}`,
             },
             {
               role: "user",
