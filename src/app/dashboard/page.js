@@ -141,7 +141,7 @@ export default function Dashboard() {
                       <div className="flex items-center">
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3 flex-shrink-0">
-                          <div className="flex gap-4 items-center text-white font-light">
+                          <div className="flex gap-4 items-center text-sm font-medium text-indigo-300">
                             <p>{user?.email}</p>
 
                             <Menu.Button className="relative flex rounded-full bg-indigo-600 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
@@ -245,33 +245,32 @@ export default function Dashboard() {
             )}
           </Disclosure>
           <header className="py-10">
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 flex items-center justify-between">
               <h1 className="text-3xl font-bold tracking-tight text-white">
                 My Decks
               </h1>
+
+              <button
+                type="button"
+                onClick={() => setOpen(true)}
+                className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              >
+                <PlusIcon
+                  className="-ml-0.5 mr-1.5 h-5 w-5"
+                  aria-hidden="true"
+                />
+                New deck
+              </button>
             </div>
           </header>
         </div>
 
         <main className="-mt-32">
           <div className="mx-auto max-w-7xl px-4 pb-12 sm:px-6 lg:px-8">
-            <div className="rounded-lg bg-white px-16 pt-8 pb-12 shadow">
+            <div className="rounded-lg bg-white px-10 py-10 shadow">
               {/* content */}
               <div className="">
-                <div className="mb-16 flex justify-end">
-                  <button
-                    type="button"
-                    onClick={() => setOpen(true)}
-                    className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <PlusIcon
-                      className="-ml-0.5 mr-1.5 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    New deck
-                  </button>
-                </div>
-                <div className="grid grid-cols-8 gap-x-20">
+                <div className="grid grid-cols-6 gap-y-5">
                   {decks.map((deck) => {
                     return (
                       <div
@@ -279,7 +278,7 @@ export default function Dashboard() {
                         onClick={() =>
                           router.push(`/practice/?deckId=${deck.id}`)
                         }
-                        className="text-center flex flex-col items-center"
+                        className="text-center flex flex-col items-center hover:bg-gray-100 p-5 rounded-md hover:ring hover:ring-gray-300"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -296,7 +295,9 @@ export default function Dashboard() {
                           />
                         </svg>
 
-                        <p className="text-lg capitalize">{deck.name}</p>
+                        <p className="text-lg capitalize text-indigo-900">
+                          {deck.name}
+                        </p>
                       </div>
                     );
                   })}
