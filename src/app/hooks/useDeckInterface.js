@@ -136,6 +136,24 @@ export function useDeckInterface() {
     return await setDoc(cardRef, cardToUpdate, { merge: true });
   }
 
+  async function updateCardMetrics({ deckId, cardId, q, ease, correctStreak }) {
+    console.log(q, " ", ease, " ", correctStreak);
+    const cardRef = doc(db, "decks", deckId, "cards", cardId);
+    const cardToUpdate = {
+      interval: calculateInterval(correctStreak + 2, ease),
+      ease: calculateEase(ease, q),
+    };
+
+    if (q == 0) {
+      cardToUpdate.interval = 1;
+      cardToUpdate.correctStreak = 0;
+    } else {
+      cardToUpdate.correctStreak = correctStreak + 1;
+    }
+
+    return await setDoc(cardRef, cardToUpdate, { merge: true });
+  }
+
   return {
     createCard,
     deleteCard,
@@ -145,5 +163,8 @@ export function useDeckInterface() {
     getCards,
     getCard,
     getDecks,
+    calculateInterval,
+    updateCardMetrics,
+    calculateEase,
   };
 }
