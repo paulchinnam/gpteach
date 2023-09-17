@@ -44,27 +44,28 @@ export function useDeckInterface() {
   }
 
   async function getCards({ deckId }) {
-    const cardsCollectionSnap = await collection(
-      db,
-      "decks",
-      deckId,
-      "cards"
-    ).get();
-    return cardsCollectionSnap.map((card) => {
-      return {
-        id: card.id,
-        ...card.data(),
-      };
-    });
+    try {
+      console.log(deckId);
+      const cardsCollectionRef = collection(db, "decks", deckId, "cards");
+      const cardsCollectionSnap = await getDocs(cardsCollectionRef);
+      return cardsCollectionSnap.docs.map((card) => {
+        return {
+          id: card.id,
+          ...card.data(),
+        };
+      });
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   async function getCard({ deckId, cardId }) {
     const cardRef = doc(db, "decks", deckId, "cards", cardId);
-    return await getDoc(cardRef).data();
+    const cardSnap = await getDoc(cardRef);
+    return cardSnap.data();
   }
 
   async function getDecks() {
-    console.log(db);
     const q = query(collection(db, "decks"), where("uid", "==", user.uid));
     const decksSnap = await getDocs(q);
     return decksSnap.docs.map((deck) => {

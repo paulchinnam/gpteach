@@ -10,15 +10,19 @@ export function Card({ cardId, deckId }) {
   const { getCard } = useDeckInterface();
 
   useEffect(() => {
+    console.log("rendering card");
     async function loadCardData() {
-      const card = getCard({ deckId, cardId });
-      setPrompt(card?.prompt);
-      setAnswer(card?.amswer);
+      const card = await getCard({ deckId, cardId });
+      console.log(card);
+      setPrompt(card.prompt);
+      setAnswer(card.answer);
     }
+
+    loadCardData();
   }, []);
   return (
-    <div onClick={() => setShowAnswer(true)}>
-      {showAnswer ? <p>{prompt}</p> : <p>{answer}</p>}
+    <div onClick={() => setShowAnswer(!showAnswer)}>
+      {showAnswer ? <p>{answer}</p> : <p>{prompt}</p>}
     </div>
   );
 }
