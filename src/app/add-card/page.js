@@ -127,12 +127,32 @@ OUTPUT: {prompt: "What company started off as Fuji Heavy Industries?", answer: "
   }, [text]);
 
   return (
-    <div>
+    <div className="m-10">
+      <h1 className="pb-8 text-center text-indigo-600 font-semibold text-xl">
+        Create a flashcard
+      </h1>
+      <div className="space-y-2">
+        <p>
+          <span className="text-indigo-900 font-semibold">Question:</span>{" "}
+          {prompt}
+        </p>
+        <p className="pb-6">
+          <span className="text-indigo-900 font-semibold">Answer:</span>{" "}
+          {answer}
+        </p>
+      </div>
       {decks.length > 0 && (
         <form>
+          <label
+            htmlFor="location"
+            className="block text-sm font-medium leading-6 text-indigo-900"
+          >
+            Choose a deck to add this flashcard to
+          </label>
           <select
             defaultValue={currentDeck}
             onChange={(e) => setCurrentDeck(e.target.value)}
+            className="mt-2 block w-full rounded-md border-0 py-1.5 pl-3 pr-10 text-gray-900 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-indigo-600 sm:text-sm sm:leading-6"
           >
             {decks.map((deck, i) => {
               return (
@@ -144,10 +164,18 @@ OUTPUT: {prompt: "What company started off as Fuji Heavy Industries?", answer: "
           </select>
         </form>
       )}
-      <h1>OpenAI Response:</h1>
-      <p>Prompt: {prompt}</p>
-      <p>Answer: {answer}</p>
-      <CheckCircleIcon class="h-6 w-6" onClick={() => verifyCard()} />
+      <button
+        type="button"
+        onClick={() => verifyCard()}
+        className="mt-6 w-full justify-center inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+      >
+        <CheckCircleIcon
+          className="-ml-0.5 mr-1.5 h-5 w-5 text-green-500"
+          aria-hidden="true"
+        />
+        Create flashcard
+      </button>
+      {/* <CheckCircleIcon class="h-6 w-6" onClick={() => verifyCard()} /> */}
     </div>
   );
 }
