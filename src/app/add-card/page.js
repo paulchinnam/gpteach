@@ -136,7 +136,7 @@ OUTPUT: [{prompt: "What company started off as Fuji Heavy Industries?", answer: 
             },
           ],
           temperature: 0,
-          max_tokens: 1024,
+          max_tokens: 2048,
           top_p: 1,
           frequency_penalty: 0,
           presence_penalty: 0,

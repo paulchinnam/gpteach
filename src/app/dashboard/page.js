@@ -90,7 +90,7 @@ export default function Dashboard() {
         <div className="bg-blue-400 pb-32">
           <Disclosure
             as="nav"
-            className="border-b border-indigo-300 border-opacity-25 bg-blue-700/30 lg:border-none"
+            className="border-b border-indigo-300 border-opacity-25 bg-blue-700/40 lg:border-none"
           >
             {({ open }) => (
               <>
@@ -108,7 +108,7 @@ export default function Dashboard() {
                               href={item.href}
                               className={classNames(
                                 item.current
-                                  ? "bg-indigo-700 text-white"
+                                  ? "bg-blue-900 text-white"
                                   : "text-white hover:bg-indigo-500 hover:bg-opacity-75",
                                 "rounded-md py-2 px-3 text-sm font-medium"
                               )}
@@ -142,7 +142,7 @@ export default function Dashboard() {
                       <div className="flex items-center">
                         {/* Profile dropdown */}
                         <Menu as="div" className="relative ml-3 flex-shrink-0">
-                          <div className="flex gap-4 items-center text-sm font-medium text-indigo-300">
+                          <div className="flex gap-4 items-center text-sm font-medium text-white">
                             <p>{user?.email}</p>
 
                             <Menu.Button className="relative flex rounded-full bg-indigo-600 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-indigo-600">
@@ -254,7 +254,7 @@ export default function Dashboard() {
               <button
                 type="button"
                 onClick={() => setOpen(true)}
-                className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-indigo-600 shadow-sm hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="inline-flex items-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-blue-600 shadow-sm hover:opacity-75 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
               >
                 <PlusIcon
                   className="-ml-0.5 mr-1.5 h-5 w-5"
