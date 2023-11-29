@@ -11,6 +11,7 @@ import {
 import { Card } from "../components/Card";
 import dayjs from "dayjs";
 import { useAuth } from "../hooks/useFirebase";
+import DeckTracker from "../components/DeckTracker";
 
 export default function Practice() {
   const router = useRouter();
@@ -107,105 +108,81 @@ export default function Practice() {
   }, [user]);
   return (
     <>
-      <div className="h-screen">
-        <div className="flex items-center px-10 pt-16 pb-24">
-          <button
-            className="flex items-center gap-2 absolute"
-            onClick={() => router.push("/dashboard")}
-          >
-            <ArrowLeftIcon class="h-6 w-6 text-indigo-600" />
-            <p className="text-indigo-900">Back to dashboard</p>
-          </button>
-          <h1 className="text-3xl w-full text-center capitalize">
-            {deckName} deck
-          </h1>
+      <div className="h-screen bg-blue-400">
+        <div className="flex items-center p-4">
+          <div className="w-1/3">
+            <button
+              className="flex items-center gap-2 text-blue-100 hover:text-blue-900 duration-100"
+              onClick={() => router.push("/dashboard")}
+            >
+              <ArrowLeftIcon class="h-6 w-6" />
+              <p className="">Back to dashboard</p>
+            </button>
+          </div>
+          <div className="w-1/3"></div>
+          <div className="w-1/3 text-right">
+            <p className="capitalize text-blue-900 font-semibold">
+              {deckName} deck
+            </p>
+          </div>
         </div>
-        <div className="flex justify-center">
-          {cards.length > 0 ? (
-            <Card
-              key={cards[0].cardId}
-              setShowIcons={setShowIcons}
-              cardId={cards[0].cardId}
-              deckId={deckId}
-            />
-          ) : (
-            <div className="">
-              <p className="px-4 py-2 bg-green-100 border border-green-600 text-green-600 rounded-md mt-20">
-                You finished all your reviews in this deck! Nice work!
-              </p>
+        <div className="flex justify-center mt-28">
+          <div className="flex flex-col items-center gap-16">
+            {cards.length > 0 ? (
+              <Card
+                key={cards[0].cardId}
+                setShowIcons={setShowIcons}
+                cardId={cards[0].cardId}
+                deckId={deckId}
+              />
+            ) : (
+              <div className="">
+                <p className="px-4 py-2 bg-green-100 border border-green-600 text-green-600 rounded-md mt-20">
+                  You finished all your reviews in this deck! Nice work!
+                </p>
+              </div>
+            )}
+            <div>
+              <DeckTracker deckLength={cards.length} />
             </div>
-          )}
+          </div>
         </div>
-        <div className="flex justify-center mt-10 gap-10">
+
+        {/* <div className="flex justify-center mt-10 gap-10">
           {cards.length > 0 && showIcons && (
             <>
-              {
-                <div className="text-center space-y-2">
-                  {cards[0].incorrect ? (
-                    1
-                  ) : (
-                    <p>
-                      {calculateInterval(
-                        cards[0].correctStreak + 1,
-                        calculateEase(cards[0].ease, 5)
-                      )}{" "}
-                      days
-                    </p>
-                  )}
-                  <button
-                    type="button"
-                    onClick={() => markCorrect()}
-                    className="inline-flex items-center rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-700 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <CheckCircleIcon
-                      className="-ml-0.5 mr-1.5 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    Easy!
-                  </button>
-                </div>
-              }
-              {cards[0].incorrect == false && (
-                <div className="text-center space-y-2">
-                  <p>
-                    {calculateInterval(
-                      cards[0].correctStreak + 1,
-                      calculateEase(cards[0].ease, 3)
-                    )}{" "}
-                    days
-                  </p>
-                  <button
-                    type="button"
-                    onClick={() => markOkay()}
-                    className="inline-flex items-center rounded-md bg-yellow-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-yellow-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
-                    <MinusCircleIcon
-                      className="-ml-0.5 mr-1.5 h-5 w-5"
-                      aria-hidden="true"
-                    />
-                    Okay
-                  </button>
-                </div>
-              )}
-              {
-                <div className="text-center space-y-2">
-                  <p>1 day</p>
-                  <button
-                    type="button"
-                    onClick={() => markIncorrect()}
-                    className="inline-flex items-center rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-600 duration-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-                  >
+              <div>
+                <button className="bg-red-500 px-4 py-2 rounded-l-md text-white text-sm">
+                  <div className="flex items-center">
                     <XCircleIcon
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
-                    Wrong
-                  </button>
-                </div>
-              }
+                    <p>Wrong</p>
+                  </div>
+                </button>
+                <button className="bg-yellow-500 px-4 py-2 text-white text-sm">
+                  <div className="flex items-center">
+                    <MinusCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    <p>OK</p>
+                  </div>
+                </button>
+                <button className="bg-green-600 px-4 py-2 rounded-r-md text-white text-sm">
+                  <div className="flex items-center">
+                    <CheckCircleIcon
+                      className="-ml-0.5 mr-1.5 h-5 w-5"
+                      aria-hidden="true"
+                    />
+                    <p>Correct</p>
+                  </div>
+                </button>
+              </div>
             </>
           )}
-        </div>
+        </div> */}
       </div>
     </>
   );

@@ -87,10 +87,10 @@ export default function Dashboard() {
   return (
     <>
       <div className="min-h-full">
-        <div className="bg-indigo-600 pb-32">
+        <div className="bg-blue-400 pb-32">
           <Disclosure
             as="nav"
-            className="border-b border-indigo-300 border-opacity-25 bg-indigo-600 lg:border-none"
+            className="border-b border-indigo-300 border-opacity-25 bg-blue-700/30 lg:border-none"
           >
             {({ open }) => (
               <>
