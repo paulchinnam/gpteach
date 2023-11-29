@@ -121,7 +121,7 @@ export default function Practice() {
           </div>
           <div className="w-1/3"></div>
           <div className="w-1/3 text-right">
-            <p className="capitalize text-blue-900 font-semibold">
+            <p className="capitalize text-white font-semibold">
               {deckName} deck
             </p>
           </div>
