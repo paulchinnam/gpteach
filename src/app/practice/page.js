@@ -148,11 +148,11 @@ export default function Practice() {
           </div>
         </div>
 
-        {/* <div className="flex justify-center mt-10 gap-10">
+        <div className="flex justify-center mt-10 gap-10">
           {cards.length > 0 && showIcons && (
             <>
-              <div>
-                <button className="bg-red-500 px-4 py-2 rounded-l-md text-white text-sm">
+              <div className="shadow-lg">
+                <button className="bg-red-500/80 px-4 py-2 rounded-l-md text-white text-sm hover:bg-red-500 duration-100 hover:duration-100">
                   <div className="flex items-center">
                     <XCircleIcon
                       className="-ml-0.5 mr-1.5 h-5 w-5"
@@ -161,7 +161,7 @@ export default function Practice() {
                     <p>Wrong</p>
                   </div>
                 </button>
-                <button className="bg-yellow-500 px-4 py-2 text-white text-sm">
+                <button className="bg-yellow-500/80 px-4 py-2 text-white text-sm hover:bg-yellow-500 duration-100 hover:duration-100">
                   <div className="flex items-center">
                     <MinusCircleIcon
                       className="-ml-0.5 mr-1.5 h-5 w-5"
@@ -170,7 +170,7 @@ export default function Practice() {
                     <p>OK</p>
                   </div>
                 </button>
-                <button className="bg-green-600 px-4 py-2 rounded-r-md text-white text-sm">
+                <button className="bg-green-600/80 px-4 py-2 rounded-r-md text-white text-sm hover:bg-green-600 duration-100 hover:duration-100">
                   <div className="flex items-center">
                     <CheckCircleIcon
                       className="-ml-0.5 mr-1.5 h-5 w-5"
@@ -182,7 +182,7 @@ export default function Practice() {
               </div>
             </>
           )}
-        </div> */}
+        </div>
       </div>
     </>
   );
