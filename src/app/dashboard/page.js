@@ -87,7 +87,7 @@ export default function Dashboard() {
   return (
     <>
       <div className="min-h-full">
-        <div className="bg-blue-400 pb-32">
+        <div className="bg-blue-500/80 pb-32">
           <Disclosure
             as="nav"
             className="border-b border-indigo-300 border-opacity-25 bg-blue-700/40 lg:border-none"
@@ -279,14 +279,14 @@ export default function Dashboard() {
                         onClick={() =>
                           router.push(`/practice/?deckId=${deck.id}`)
                         }
-                        className="text-center flex flex-col items-center hover:bg-gray-100 p-5 rounded-md hover:ring hover:ring-gray-300"
+                        className="text-center flex flex-col items-center hover:bg-gray-50 p-5 rounded-md hover:ring-0.5 hover:ring hover:ring-gray-100"
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           fill="none"
                           viewBox="0 0 24 24"
-                          stroke-width="1.5"
-                          stroke="#312e81"
+                          stroke-width="1"
+                          stroke="#1e3a8a"
                           class="w-24 h-24"
                         >
                           <path
@@ -296,7 +296,7 @@ export default function Dashboard() {
                           />
                         </svg>
 
-                        <p className="text-lg capitalize text-indigo-900">
+                        <p className="text-lg capitalize text-blue-900">
                           {deck.name}
                         </p>
                       </div>
