@@ -155,6 +155,7 @@ export default function Practice() {
                 <button className="bg-red-500/80 px-4 py-2 rounded-l-md text-white text-sm hover:bg-red-500 duration-100 hover:duration-100">
                   <div className="flex items-center">
                     <XCircleIcon
+                      onClick={markIncorrect}
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
@@ -164,6 +165,7 @@ export default function Practice() {
                 <button className="bg-yellow-500/80 px-4 py-2 text-white text-sm hover:bg-yellow-500 duration-100 hover:duration-100">
                   <div className="flex items-center">
                     <MinusCircleIcon
+                        onClick={markOkay}
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
@@ -173,6 +175,7 @@ export default function Practice() {
                 <button className="bg-green-600/80 px-4 py-2 rounded-r-md text-white text-sm hover:bg-green-600 duration-100 hover:duration-100">
                   <div className="flex items-center">
                     <CheckCircleIcon
+                      onClick={markCorrect}
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
