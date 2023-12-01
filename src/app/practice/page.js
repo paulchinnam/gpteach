@@ -152,30 +152,36 @@ export default function Practice() {
           {cards.length > 0 && showIcons && (
             <>
               <div className="shadow-lg">
-                <button className="bg-red-500/80 px-4 py-2 rounded-l-md text-white text-sm hover:bg-red-500 duration-100 hover:duration-100">
+                <button
+                  onClick={markIncorrect}
+                  className="bg-red-500/80 px-4 py-2 rounded-l-md text-white text-sm hover:bg-red-500 duration-100 hover:duration-100"
+                >
                   <div className="flex items-center">
                     <XCircleIcon
-                      onClick={markIncorrect}
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
                     <p>Wrong</p>
                   </div>
                 </button>
-                <button className="bg-yellow-500/80 px-4 py-2 text-white text-sm hover:bg-yellow-500 duration-100 hover:duration-100">
+                <button
+                  onClick={markOkay}
+                  className="bg-yellow-500/80 px-4 py-2 text-white text-sm hover:bg-yellow-500 duration-100 hover:duration-100"
+                >
                   <div className="flex items-center">
                     <MinusCircleIcon
-                        onClick={markOkay}
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
                     <p>OK</p>
                   </div>
                 </button>
-                <button className="bg-green-600/80 px-4 py-2 rounded-r-md text-white text-sm hover:bg-green-600 duration-100 hover:duration-100">
+                <button
+                  onClick={markCorrect}
+                  className="bg-green-600/80 px-4 py-2 rounded-r-md text-white text-sm hover:bg-green-600 duration-100 hover:duration-100"
+                >
                   <div className="flex items-center">
                     <CheckCircleIcon
-                      onClick={markCorrect}
                       className="-ml-0.5 mr-1.5 h-5 w-5"
                       aria-hidden="true"
                     />
